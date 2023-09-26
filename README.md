@@ -1,4 +1,4 @@
-# curso-kotlin-intemedio
+# Curso intermedio de Kotlin
 Aplicación del curso de Kotlin intermedio
 
 El temario del curso será:
