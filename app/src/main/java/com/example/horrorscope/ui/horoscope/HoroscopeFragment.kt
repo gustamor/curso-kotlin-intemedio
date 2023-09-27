@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.horrorscope.R
 import com.example.horrorscope.databinding.FragmentHoroscopeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HoroscopeFragment : Fragment() {
 
     private var _binding: FragmentHoroscopeBinding? = null
@@ -20,6 +23,4 @@ class HoroscopeFragment : Fragment() {
         _binding = FragmentHoroscopeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
-
-
 }

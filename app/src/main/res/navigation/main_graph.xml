@@ -20,4 +20,5 @@
         android:name="com.example.horrorscope.ui.palmistry.PalmistryFragment"
         android:label="fragment_palmistry"
         tools:layout="@layout/fragment_palmistry" />
+
 </navigation>

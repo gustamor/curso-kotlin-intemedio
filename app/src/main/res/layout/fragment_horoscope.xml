@@ -6,6 +6,4 @@
     android:background="@color/primary"
     tools:context=".ui.horoscope.HoroscopeFragment">
 
-
-
 </FrameLayout>
