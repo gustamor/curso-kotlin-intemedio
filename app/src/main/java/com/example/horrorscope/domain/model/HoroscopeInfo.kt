@@ -1,7 +1,6 @@
 package com.example.horrorscope.domain.model
 
 import com.example.horrorscope.R
-import com.example.horrorscope.ui.horoscope.HoroscopeFragment
 
 sealed class HoroscopeInfo(val img: Int, val name: Int) {
     data object Aries : HoroscopeInfo(R.drawable.aries, R.string.aries)
