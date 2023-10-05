@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.horrorscope.R
 import com.example.horrorscope.domain.model.HoroscopeInfo
 
-class HoroscopeAdapter(private var horoscopeList:List<HoroscopeInfo> = emptyList()): RecyclerView.Adapter<HoroscopeViewHolder>() {
+class HoroscopeAdapter(private var horoscopeList:List<HoroscopeInfo> = emptyList(),
+                       private val onItemSelected:(HoroscopeInfo) -> Unit)
+    : RecyclerView.Adapter<HoroscopeViewHolder>()
+{
 
    @SuppressLint("NotifyDataSetChanged")
    fun updateList(list:List<HoroscopeInfo>) {
@@ -21,7 +24,7 @@ class HoroscopeAdapter(private var horoscopeList:List<HoroscopeInfo> = emptyList
        )
     }
     override fun onBindViewHolder(holder: HoroscopeViewHolder, position: Int) {
-        holder.render(horoscopeList[position])
+        holder.render(horoscopeList[position],onItemSelected)
     }
     override fun getItemCount(): Int = horoscopeList.size
 
