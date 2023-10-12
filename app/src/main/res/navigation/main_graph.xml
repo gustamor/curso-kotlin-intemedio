@@ -28,6 +28,10 @@
         android:id="@+id/detailHoroscopeActivity"
         android:name="com.example.horrorscope.ui.home.DetailActivity.DetailHoroscopeActivity"
         android:label="activity_detail_horoscope_activity"
-        tools:layout="@layout/activity_detail_horoscope_activity" />
+        tools:layout="@layout/activity_detail_horoscope_activity">
+        <argument
+            android:name="type"
+            app:argType="com.example.horrorscope.domain.model.HoroscopeModel" />
+    </activity>
 
 </navigation>

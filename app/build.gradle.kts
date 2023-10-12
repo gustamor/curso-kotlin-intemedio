@@ -46,6 +46,7 @@ android {
 
 dependencies {
     val navVersion = "2.7.3"
+    val retrofitVersion = "2.9.0"
 
     //NavComponent
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
@@ -55,7 +56,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-compiler:2.48")
 
-    implementation ("androidx.core:core-ktx:1.9.0")
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:{retrofitVersion}")
+    implementation("com.squareup.retrofit2:converter-json:{retrofitVersion}")
+
+    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

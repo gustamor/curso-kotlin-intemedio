@@ -3,15 +3,22 @@ package com.example.horrorscope.ui.home.DetailActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.navArgs
 import com.example.horrorscope.databinding.ActivityDetailHoroscopeActivityBinding
-import com.example.horrorscope.ui.horoscope.HoroscopeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailHoroscopeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailHoroscopeActivityBinding
-    private val horoscopeViewModel: HoroscopeViewModel by viewModels()
+    private val detailsHoroscopeViewModel: DetailsHoroscopeViewModel by viewModels()
+
+    private val args: DetailHoroscopeActivityArgs by navArgs();
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailHoroscopeActivityBinding.inflate(layoutInflater)
@@ -20,6 +27,42 @@ class DetailHoroscopeActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+        initUIState()
+    }
 
+    private fun initUIState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsHoroscopeViewModel.UiState.collect {
+                    when (it) {
+                        is HoroscopeDetailState.Loading -> {
+                            loadingState()
+                        }
+
+                        is HoroscopeDetailState.Error -> {
+                            ErrorState()
+                        }
+
+                        is HoroscopeDetailState.Success -> {
+                            SuccesState()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun ErrorState() {
+
+    }
+
+    private fun SuccesState() {
+        binding.tvBody.isVisible = true
+        binding.pb.isVisible = false
+    }
+
+    private fun loadingState() {
+        binding.pb.isVisible = true
+        binding.tvBody.isVisible = false
     }
 }
