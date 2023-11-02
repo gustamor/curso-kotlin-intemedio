@@ -8,7 +8,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navArgs
+import com.example.horrorscope.R
 import com.example.horrorscope.databinding.ActivityDetailHoroscopeActivityBinding
+import com.example.horrorscope.domain.model.HoroscopeModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -17,16 +19,23 @@ class DetailHoroscopeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailHoroscopeActivityBinding
     private val detailsHoroscopeViewModel: DetailsHoroscopeViewModel by viewModels()
-    private val args: DetailHoroscopeActivityArgs by navArgs();
+    private val args: DetailHoroscopeActivityArgs by navArgs()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailHoroscopeActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
+        detailsHoroscopeViewModel.getHoroscope(args.type)
     }
 
     private fun initUI() {
+        initListeners()
         initUIState()
+    }
+
+    private fun initListeners() {
+        binding.ivBack.setOnClickListener{onBackPressed()}
     }
 
     private fun initUIState() {
@@ -43,10 +52,11 @@ class DetailHoroscopeActivity : AppCompatActivity() {
                         }
 
                         is HoroscopeDetailState.Success -> {
-                            succesState()
+                            successState(it)
                         }
                     }
                 }
+
             }
         }
     }
@@ -55,13 +65,34 @@ class DetailHoroscopeActivity : AppCompatActivity() {
 
     }
 
-    private fun succesState() {
+    private fun successState(horoscope: HoroscopeDetailState.Success) {
         binding.tvBody.isVisible = true
+        binding.tvTitle.isVisible = true
         binding.pb.isVisible = false
+        binding.tvTitle.text = horoscope.sign
+        binding.tvBody.text = horoscope.prediction
+
+       val image = when(horoscope.horoscopeModel) {
+            HoroscopeModel.Aries -> R.drawable.detail_aries
+            HoroscopeModel.Taurus -> R.drawable.detail_taurus
+            HoroscopeModel.Gemini -> R.drawable.detail_gemini
+            HoroscopeModel.Cancer -> R.drawable.detail_cancer
+            HoroscopeModel.Leo -> R.drawable.detail_leo
+            HoroscopeModel.Virgo -> R.drawable.detail_virgo
+            HoroscopeModel.Libra -> R.drawable.detail_libra
+            HoroscopeModel.Scorpio -> R.drawable.detail_scorpio
+            HoroscopeModel.Sagittarius -> R.drawable.detail_sagittarius
+            HoroscopeModel.Capricorn -> R.drawable.detail_capricorn
+            HoroscopeModel.Aquarius -> R.drawable.detail_aquarius
+            HoroscopeModel.Pisces -> R.drawable.detail_pisces
+        }
+        binding.ivDetail.setImageResource(image)
     }
 
     private fun loadingState() {
         binding.pb.isVisible = true
         binding.tvBody.isVisible = false
+        binding.tvTitle.isVisible = false
+
     }
 }
