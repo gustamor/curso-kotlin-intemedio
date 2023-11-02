@@ -1,5 +1,6 @@
 package com.example.horrorscope.data.network
 
+import com.example.horrorscope.BuildConfig.BASE_URL
 import com.example.horrorscope.data.network.core.interceptors.AuthInterceptor
 import com.example.horrorscope.domain.model.repositories.Repository
 import dagger.Module
@@ -21,16 +22,10 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://newastro.vercel.app/")
+            .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-
-    @Provides
-    fun provideHoroscopeApiService(retrofit: Retrofit): HorosocopeAPIService {
-        return retrofit.create(HorosocopeAPIService::class.java)
-    }
 
     @Provides
     @Singleton
@@ -38,8 +33,13 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .addInterceptor(HttpLoggingInterceptor()
-                            .setLevel(HttpLoggingInterceptor.Level.BODY))
+                             .setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
+    }
+
+    @Provides
+    fun provideHoroscopeApiService(retrofit: Retrofit): HorosocopeAPIService {
+        return retrofit.create(HorosocopeAPIService::class.java)
     }
 
 

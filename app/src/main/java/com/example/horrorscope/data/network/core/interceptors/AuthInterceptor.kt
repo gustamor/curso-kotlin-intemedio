@@ -9,9 +9,8 @@ class AuthInterceptor @Inject constructor(private val token: TokenManager): Inte
         val request = chain.request().newBuilder().addHeader("Authorization", token.getToken()).build()
         return chain.proceed(request);
     }
-
 }
 
-class TokenManager {
+class TokenManager @Inject constructor(){
     fun getToken(): String = "tokenasdasdas"
 }
