@@ -31,7 +31,8 @@ android {
                 "proguard-rules.pro"
             )
             resValue("string","AppName", "Horoscope")
-            buildConfigField("String","BASE_URL", "https://newastro.vercel.app/")
+            buildConfigField("String","BASE_URL", "\"https://newastro.vercel.app/\"")
+            signingConfig = signingConfigs.getByName("debug")
         }
 
         getByName("debug") {
