@@ -32,18 +32,18 @@ class DetailHoroscopeActivity : AppCompatActivity() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsHoroscopeViewModel.UiState.collect {
+                detailsHoroscopeViewModel.uiState.collect {
                     when (it) {
                         is HoroscopeDetailState.Loading -> {
                             loadingState()
                         }
 
                         is HoroscopeDetailState.Error -> {
-                            ErrorState()
+                            errorState()
                         }
 
                         is HoroscopeDetailState.Success -> {
-                            SuccesState()
+                            succesState()
                         }
                     }
                 }
@@ -51,11 +51,11 @@ class DetailHoroscopeActivity : AppCompatActivity() {
         }
     }
 
-    private fun ErrorState() {
+    private fun errorState() {
 
     }
 
-    private fun SuccesState() {
+    private fun succesState() {
         binding.tvBody.isVisible = true
         binding.pb.isVisible = false
     }

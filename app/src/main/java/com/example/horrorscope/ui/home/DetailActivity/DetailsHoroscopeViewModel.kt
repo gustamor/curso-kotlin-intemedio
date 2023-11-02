@@ -16,20 +16,20 @@ class DetailsHoroscopeViewModel @Inject constructor(
     private val getPredictionsUseCase: GetPredictionsUseCase
 ) : ViewModel() {
 
-    private var _UiState = MutableStateFlow<HoroscopeDetailState>(HoroscopeDetailState.Loading)
-    val UiState: StateFlow<HoroscopeDetailState> = _UiState
+    private var _uiState = MutableStateFlow<HoroscopeDetailState>(HoroscopeDetailState.Loading)
+    val uiState: StateFlow<HoroscopeDetailState> = _uiState
 
     fun getHoroscope(sign: String) {
 
         viewModelScope.launch {
-            _UiState.value = HoroscopeDetailState.Loading
+            _uiState.value = HoroscopeDetailState.Loading
             val result = withContext(Dispatchers.IO) {
                 getPredictionsUseCase(sign)
             }
             if (result != null) {
-                _UiState.value = HoroscopeDetailState.Success(result.horoscope, result.sign)
+                _uiState.value = HoroscopeDetailState.Success(result.horoscope, result.sign)
             } else {
-                _UiState.value = HoroscopeDetailState.Error("No ha cargado en meses")
+                _uiState.value = HoroscopeDetailState.Error("No ha cargado en meses")
             }
         }
 
