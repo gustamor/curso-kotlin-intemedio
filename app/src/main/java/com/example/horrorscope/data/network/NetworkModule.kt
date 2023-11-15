@@ -45,5 +45,5 @@ object NetworkModule {
 
     @Provides
     fun provideRepository(apiService: HorosocopeAPIService): Repository =
-        RepositoryImpl(apiService);
+        RepositoryImpl(apiService)
 }

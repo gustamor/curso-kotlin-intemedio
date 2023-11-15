@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AuthInterceptor @Inject constructor(private val token: TokenManager): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder().addHeader("Authorization", token.getToken()).build()
-        return chain.proceed(request);
+        return chain.proceed(request)
     }
 }
 
