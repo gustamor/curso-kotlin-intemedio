@@ -1,6 +1,7 @@
 package com.example.horrorscope.ui.luck
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,10 +41,25 @@ class LuckFragment : Fragment() {
     }
 
     private fun preparePredicition() {
-        randomCardProvider.getLucky()?.let {
-            binding.tvLucky.text = getString(it.text)
-            binding.ivLuckyCard.setImageResource(it.image)
+        randomCardProvider.getLucky()?.let { luck ->
+            val currentPrediction = getString(luck.text)
+            binding.tvLucky.text = currentPrediction
+            binding.ivLuckyCard.setImageResource(luck.image)
+            binding.tvShare.setOnClickListener {
+                shareResult(currentPrediction)
+            }
         }
+    }
+
+    private fun shareResult(currentPrediction: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, currentPrediction)
+            type = "plain/text"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     private fun initListeners() {
