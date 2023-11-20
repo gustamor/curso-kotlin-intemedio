@@ -1,6 +1,7 @@
 package com.example.horrorscope.ui.luck
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.horrorscope.R
 import com.example.horrorscope.databinding.FragmentLuckBinding
+import com.example.horrorscope.ui.core.listeners.OnSwipeTouchListener
 import com.example.horrorscope.ui.providers.RandomCardProvider
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Random
@@ -62,10 +64,20 @@ class LuckFragment : Fragment() {
         startActivity(shareIntent)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initListeners() {
-        binding.ivRoulette.setOnClickListener {
-            spinRoulette()
-        }
+
+        binding.ivRoulette.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onSwipeRight() {
+                spinRoulette()
+            }
+
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onSwipeLeft() {
+                spinRoulette()
+            }
+        })
     }
 
     private fun spinRoulette() {
