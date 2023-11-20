@@ -1,6 +1,7 @@
 package com.example.horrorscope.ui.palmistry
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import com.example.horrorscope.databinding.FragmentPalmistryBinding
@@ -44,7 +46,9 @@ class PalmistryFragment : Fragment() {
             ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener({
-            val cameraProvider = CameraProviderFuture.get()
+
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
             val preview = Preview.Builder()
                 .build()
                 .also {
@@ -54,12 +58,13 @@ class PalmistryFragment : Fragment() {
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
-                cameraProvider.unbindall()
-                cameraProvider.bindToLifeCycle(this, cameraSelector)
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview)
 
-            } catch () {
+            } catch (e: Exception) {
+                Log.e("gus", e.toString())
             }
-        })
+        }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
