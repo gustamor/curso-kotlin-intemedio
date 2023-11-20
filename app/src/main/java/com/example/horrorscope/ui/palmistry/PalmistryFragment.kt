@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import com.example.horrorscope.databinding.FragmentPalmistryBinding
+import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +29,7 @@ class PalmistryFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-//startCamera
+//startCamera()
         } else {
             Toast.makeText(
                 requireContext(),
@@ -35,10 +39,33 @@ class PalmistryFragment : Fragment() {
         }
     }
 
+    private fun startCamera() {
+        val cameraProviderFuture: ListenableFuture<ProcessCameraProvider> =
+            ProcessCameraProvider.getInstance(requireContext())
+
+        cameraProviderFuture.addListener({
+            val cameraProvider = CameraProviderFuture.get()
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+                }
+
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindall()
+                cameraProvider.bindToLifeCycle(this, cameraSelector)
+
+            } catch () {
+            }
+        })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (checkCameraPermission()) {
-
+            startCamera()
         } else {
             requestPermissionLauncher.launch(PERMISSION_CAMERA)
         }
@@ -58,14 +85,8 @@ class PalmistryFragment : Fragment() {
         _binding = FragmentPalmistryBinding.inflate(layoutInflater, container, false)
         return binding.root
 
-        initUI() {
-
-        }
     }
 
-    private fun initUI(function: () -> Unit) {
-
-    }
 
 
 }
